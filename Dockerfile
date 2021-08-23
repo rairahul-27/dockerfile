@@ -1,5 +1,6 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest AS builder
 
+RUN mkdir /golang
 WORKDIR /golang
 
 RUN microdnf install -y \ 
@@ -18,6 +19,7 @@ export PATH="/golang/go/bin:${PATH}"; \
 go version 
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+RUN mkdir /go/src/app
 WORKDIR /go/src/app
 COPY --from=builder /golang/go /usr/local
 ENV GOPATH=/go
